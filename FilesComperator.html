@@ -1,26 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 
 <head>
-  <meta name="description" content="Webpage description goes here" />
+  <meta name="description" content="A web page to compare between 2 lists of files" />
   <meta charset="utf-8">
   <title>השוואת קבצים</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <meta name="Dean Yair Aseraf" content="">
+  <link rel="icon" type="image/x-icon" href="file-comparator-icon.png">
   <style>
 
     *{
       padding: 0px;
       margin: 0px;
     }
-    .cntnr{
+    .column-container{
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
 
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    }
+
+    .row-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap:20px;
       font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
     }
 
@@ -31,7 +38,8 @@
     }
 
     h1{
-      margin: 40px;
+      margin-top: 40px;
+      margin-bottom: 40px;
     }
 
     h2{
@@ -54,13 +62,16 @@
       align-items: center;
       flex-direction: column;
     }
+    .icon{
+      width: 50px;
+    }
 
   </style>
 </head>
 
 <body>
-  <div class="cntnr">
-    <h1>השוואת רשימות קבצים</h1>
+  <div class="column-container">
+    <div class="row-container"><img src="file-comparator-icon.png" class="icon"/><h1>השוואת רשימות קבצים</h1></div>
     <div>
       <input name="in" class="input" type="file" directory multiple id="aFileUpload"/> :רשימת קבצים ראשית
     </div>
@@ -73,7 +84,7 @@
       <input type="button" onClick="logElement()" value="השוואה"/>
     </div>
 
-    <h2>תוצאות</h2>
+    
     <div id="result" class="output-container"></div>
     
   </div>
@@ -133,7 +144,9 @@ function logElement()
     }
   }
 
-  document.getElementById("result").innerHTML = aResultText + bResultText;
+  let text = aResultText || bResultText ? "<h2>תוצאות</h2>" + aResultText + bResultText : "";
+  
+  document.getElementById("result").innerHTML = text;
 
   
 }
