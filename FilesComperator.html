@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Webpage description goes here" />
+  <meta charset="utf-8">
+  <title>השוואת קבצים</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+
+    *{
+      padding: 0px;
+      margin: 0px;
+    }
+    .cntnr{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    }
+
+    .input{
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      width: 25ch;
+      padding-bottom: 10px;
+    }
+
+    h1{
+      margin: 40px;
+    }
+
+    h2{
+      margin: 20px;
+    }
+
+    input[type=file]{
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    input[type=button]{
+      margin: 2px;
+    }
+
+
+    .output-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="cntnr">
+    <h1>השוואת רשימות קבצים</h1>
+    <div>
+      <input name="in" class="input" type="file" directory multiple id="aFileUpload"/> :רשימת קבצים ראשית
+    </div>
+
+    <div>
+      <input name="on" class="input" type="file" directory multiple id="bFileUpload" /> :רשימת קבצים להשוואה
+    </div>
+
+    <div>
+      <input type="button" onClick="logElement()" value="השוואה"/>
+    </div>
+
+    <h2>תוצאות</h2>
+    <div id="result" class="output-container"></div>
+    
+  </div>
+
+<script>
+
+
+function logElement()
+{
+  let aFiles = document.getElementById("aFileUpload");//Tiff
+  let bFiles = document.getElementById("bFileUpload");//jpg
+
+  
+  function getFileName(filename){
+    return filename.split(".")[0];
+  }
+
+
+  let bFileNames = [];
+  for(let bFile of bFiles.files){
+    if(bFile.type)
+    bFileNames.push(getFileName(bFile.name));
+  }
+
+  let aFileNames = [];
+  for(let aFile of aFiles.files){
+    if(aFile.type)
+      aFileNames.push(getFileName(aFile.name));
+  }
+  
+  let aResultText = "";
+  let aCounter = 1;
+  for(let aFile of aFiles.files){
+    if(aFile.type){
+      if(!bFileNames.includes(getFileName(aFile.name))){
+        if(!aResultText || aResultText === "")
+        aResultText = "<h3>:קבצים שחסרים מרשימת ההשוואה</h3>";
+
+        aResultText += `<div>${aFile.name} (${aCounter}</div>`;
+
+        aCounter++;
+      }
+
+    }
+  }
+
+  let bResultText = "";
+  let bCounter = 1;
+  for(let bFile of bFiles.files){
+    if(bFile.type){
+      if(!aFileNames.includes(getFileName(bFile.name))){
+        if(!bResultText || bResultText === "")
+        bResultText = "<h3>:קבצים שחסרים מהרשימה הראשית</h3>";
+
+        bResultText += `<div>${bFile.name} (${bCounter}</div>`;
+      }
+    }
+  }
+
+  document.getElementById("result").innerHTML = aResultText + bResultText;
+
+  
+}
+</script>
+
+</body>
+</html>
